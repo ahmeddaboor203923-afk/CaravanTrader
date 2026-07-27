@@ -26,9 +26,8 @@ const GAME_WORLD = 2;
 
 let gameState = GAME_MENU;
 
-let worldExists=
-localStorage.getItem("worldExists")==="true";
-
+let worldExists =
+SaveSystem.data.worldExists;
 
 // =========================
 // الموسيقى
@@ -42,27 +41,33 @@ menuMusic.volume = 0.7;
 
 const settings = {
 
-language:"ar",
+language: SaveSystem.data.language,
 
-masterVolume:70,
+masterVolume: SaveSystem.data.masterVolume,
 
-musicVolume:70,
+musicVolume: SaveSystem.data.musicVolume,
 
-quality:"high",
+quality: SaveSystem.data.quality
 
 };
 
-
 function saveSettings(){
 
-    localStorage.setItem("language",settings.language);
-    localStorage.setItem("masterVolume",settings.masterVolume);
-    localStorage.setItem("musicVolume",settings.musicVolume);
-    localStorage.setItem("quality",settings.quality);
+SaveSystem.data.language =
+settings.language;
+
+SaveSystem.data.masterVolume =
+settings.masterVolume;
+
+SaveSystem.data.musicVolume =
+settings.musicVolume;
+
+SaveSystem.data.quality =
+settings.quality;
+
+SaveSystem.save();
 
 }
-
-
 
 function loadSettings(){
 
@@ -256,7 +261,9 @@ showNewGamePopup();
 
 }else{
 
-localStorage.setItem("worldExists","true");
+SaveSystem.data.worldExists = true;
+SaveSystem.save();
+
 
 worldExists=true;
 
