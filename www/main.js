@@ -69,28 +69,6 @@ SaveSystem.save();
 
 }
 
-function loadSettings(){
-
-settings.language=
-localStorage.getItem("language") || "ar";
-
-settings.masterVolume=
-Number(localStorage.getItem("masterVolume") || 70);
-
-settings.musicVolume=
-Number(localStorage.getItem("musicVolume") || 70);
-
-settings.quality=
-localStorage.getItem("quality") || "high";
-
-menuMusic.volume=
-settings.masterVolume/100;
-
-}
-
-loadSettings();
-
-
 function createMenu(){
 
 
@@ -710,19 +688,23 @@ menuMusic.play();
 
 });
 
-document.addEventListener("pause", ()=>{
+document.addEventListener("deviceready", ()=>{
 
-    menuMusic.pause();
+    document.addEventListener("pause", ()=>{
 
-}, false);
+        menuMusic.pause();
 
-document.addEventListener("resume", ()=>{
+    }, false);
 
-    if(gameState===GAME_MENU){
+    document.addEventListener("resume", ()=>{
 
-        menuMusic.play();
+        if(gameState===GAME_MENU){
 
-    }
+            menuMusic.play();
+
+        }
+
+    }, false);
 
 }, false);
 
