@@ -710,3 +710,19 @@ menuMusic.play();
 
 });
 
+document.addEventListener("pause", ()=>{
+
+    menuMusic.pause();
+
+}, false);
+
+document.addEventListener("resume", ()=>{
+
+    if(gameState===GAME_MENU){
+
+        menuMusic.play();
+
+    }
+
+}, false);
+
