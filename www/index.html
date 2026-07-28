@@ -1,27 +1,115 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
+<html lang="ar" dir="rtl" id="htmlRoot">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Caravan Trader</title>
-
-<link rel="stylesheet"
-href="style.css">
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#2b1d3d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" href="./icon-192.png">
+<link rel="stylesheet" href="./style.css">
+<title>اهرب من أبو جمال</title>
 </head>
-
 <body>
 
-<canvas id="game"></canvas>
+<div id="rotateOverlay">
+  <div class="rotateIcon">🔄</div>
+  <div data-i18n="rotateMsg">دوّر جوالك عشان تلعب أحسن</div>
+</div>
 
-<script src="save.js"></script>
-<script src="main.js"></script>
+<div id="menuScreen" class="screen">
+  <div class="bgDecor">
+    <div class="moon"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="house"><div class="roof"></div><div class="door"></div><div class="win w1"></div><div class="win w2"></div></div>
+    <div class="floatEmoji e1">😂</div>
+    <div class="floatEmoji e2">👻</div>
+    <div class="floatEmoji e3">🥙</div>
+  </div>
+  <div class="menuCard">
+    <h1 id="menuTitle" data-i18n="title">🏚️ اهرب من أبو جمال</h1>
+    <p class="menuSub" data-i18n="menuSub">دخلت بيته... وهسا لازم تطلع قبل ما يمسكك!</p>
+    <button id="btnStart" class="bigBtn" data-i18n="startBtn">▶ بدء اللعبة</button>
+    <button id="btnSettings" class="bigBtn secondary" data-i18n="settingsBtn">⚙ الإعدادات</button>
+  </div>
+</div>
 
+<div id="settingsScreen" class="screen" style="display:none;">
+  <div class="menuCard settingsCard">
+    <h2 data-i18n="settingsTitle">⚙ الإعدادات</h2>
+
+    <div class="settingRow">
+      <span data-i18n="langLabel">اللغة</span>
+      <div class="segmented" id="langGroup">
+        <button class="lang-btn" data-lang="ar">العربية</button>
+        <button class="lang-btn" data-lang="en">English</button>
+      </div>
+    </div>
+
+    <div class="settingRow">
+      <span data-i18n="qualityLabel">الجودة</span>
+      <div class="segmented" id="qualityGroup">
+        <button class="quality-btn" data-quality="low" data-i18n="qualityLow">منخفضة</button>
+        <button class="quality-btn" data-quality="medium" data-i18n="qualityMed">متوسطة</button>
+        <button class="quality-btn" data-quality="high" data-i18n="qualityHigh">عالية</button>
+      </div>
+    </div>
+
+    <div class="settingRow column">
+      <span data-i18n="soundLabel">🚶 صوت المشي</span>
+      <input type="range" id="soundSlider" min="0" max="1" step="0.05">
+    </div>
+
+    <div class="settingRow column">
+      <span data-i18n="musicLabel">🎵 الموسيقى</span>
+      <input type="range" id="musicSlider" min="0" max="1" step="0.05">
+    </div>
+
+    <button id="btnBack" class="bigBtn secondary" data-i18n="back">⬅ رجوع</button>
+  </div>
+</div>
+
+<div id="gameScreen" class="screen" style="display:none;">
+  <div id="stage">
+    <canvas id="game"></canvas>
+    <div id="lookLayer"></div>
+    <div id="crosshair"></div>
+
+    <div id="topBar">
+      <div id="compassWrap"><div id="compassArrow"></div></div>
+      <div id="compassLabel">🔑</div>
+      <div id="statusText"></div>
+      <button id="btnPause">⚙</button>
+    </div>
+
+    <div id="inv">
+      <div class="item" id="i-key"><span data-i18n="keyLabel">🔑 المفتاح</span></div>
+      <div class="item" id="i-throw"><span>🎯 0</span></div>
+    </div>
+
+    <div id="banner"></div>
+    <div id="jamalBubble"></div>
+    <div id="confettiLayer"></div>
+
+    <div id="joystick"><div id="stick"></div></div>
+    <div id="actionBtns">
+      <div class="abtn" id="btnThrow" style="display:none;">🎯</div>
+      <div class="abtn" id="btnDoor" style="display:none;">🚪</div>
+    </div>
+
+    <div id="overlay">
+      <h1 id="ovTitle"></h1>
+      <p id="ovText"></p>
+      <button id="ovBtn" data-i18n="retry">إعادة المحاولة</button>
+    </div>
+  </div>
+</div>
+
+<script src="./menu.js"></script>
+<script src="./game.js"></script>
 </body>
-
 </html>
