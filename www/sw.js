@@ -1,4 +1,4 @@
-const CACHE_NAME = 'abu-jamal-v4';
+const CACHE_NAME = 'abu-jamal-v7';
 const ASSETS = [
   './index.html',
   './style.css',
@@ -24,3 +24,4 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   e.respondWith(caches.match(e.request).then((cached) => cached || fetch(e.request)));
 });
+

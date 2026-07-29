@@ -10,6 +10,7 @@ const translations = {
     langLabel:'اللغة', qualityLabel:'الجودة', soundLabel:'🚶 صوت المشي', musicLabel:'🎵 الموسيقى',
     qualityLow:'منخفضة', qualityMed:'متوسطة', qualityHigh:'عالية',
     keyLabel:'🔑 المفتاح', retry:'🔁 إعادة المحاولة', rotateMsg:'🔄 دوّر جوالك عشان تلعب أحسن',
+    loadingText:'جارِ التحميل...',
     statusFindKey:'تابع البوصلة فوق عشان تلاقي المفتاح',
     statusHaveKey:'✅ عندك المفتاح — تابع البوصلة لباب الخروج',
     statusChase:'😅 شافك أبو جمال! أنت أسرع منه بكثير، اهرب!',
@@ -32,6 +33,7 @@ const translations = {
     langLabel:'Language', qualityLabel:'Quality', soundLabel:'🚶 Footstep Volume', musicLabel:'🎵 Music',
     qualityLow:'Low', qualityMed:'Medium', qualityHigh:'High',
     keyLabel:'🔑 Key', retry:'🔁 Try Again', rotateMsg:'🔄 Rotate your phone for the best experience',
+    loadingText:'Loading...',
     statusFindKey:'Follow the compass above to find the key',
     statusHaveKey:"✅ You have the key — follow the compass to the exit",
     statusChase:"😅 Abu Jamal spotted you! You're way faster, run!",
@@ -112,11 +114,31 @@ function startGame(){
     if(el.requestFullscreen) el.requestFullscreen().catch(()=>{});
     if(screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(()=>{});
   }catch(e){}
-  ensureAudio(); startMusic();
-  showScreen('game');
-  if(typeof resizeCanvas === 'function') resizeCanvas();
-  gameActive = true;
-  if(typeof showMsg === 'function') showMsg(t('initialMsg'), 2500);
+  ensureAudio();
+
+  // شاشة تحميل سوداء (JAVASCRIPT / HTML-CSS) قبل الدخول للعبة
+  menuScreen.style.display='none';
+  settingsScreen.style.display='none';
+  gameScreen.style.display='none';
+  const loadingScreen = document.getElementById('loadingScreen');
+  const loadingBar = document.getElementById('loadingBar');
+  loadingScreen.style.display='flex';
+  loadingBar.style.width='0%';
+  let prog=0;
+  const iv = setInterval(()=>{
+    prog += 6+Math.random()*10;
+    if(prog>=100){ prog=100; clearInterval(iv); }
+    loadingBar.style.width = prog+'%';
+  }, 90);
+
+  setTimeout(()=>{
+    loadingScreen.style.display='none';
+    startMusic();
+    showScreen('game');
+    if(typeof resizeCanvas === 'function') resizeCanvas();
+    gameActive = true;
+    if(typeof showMsg === 'function') showMsg(t('initialMsg'), 2500);
+  }, 1700);
 }
 
 /* ---------- الصوت (مُولّد بالكامل بالكود، بدون ملفات صوت خارجية) ---------- */
@@ -214,3 +236,4 @@ function spawnConfetti(){
 /* ---------- التشغيل الأولي لواجهة القائمة ---------- */
 applyLanguage();
 syncSettingsUI();
+
